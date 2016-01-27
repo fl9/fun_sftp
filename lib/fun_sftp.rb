@@ -16,18 +16,22 @@ module FunSftp
 
     attr_accessor :source
 
-    attr_reader :server, :port, :user, :password, :client
+    attr_reader :server, :port, :user, :password, :keys, :client
 
     alias_method :pwd, :source
 
-    def initialize(server, user, options)
-      @server, @user, @options = server, user, options
+    def initialize(server, port, user, password, keys)
+      @server, @port, @user, @password, @keys = server, port, user, password, keys
       self.source = '.'
       @client = setup_login
     end
 
     def setup_login
-      Net::SFTP.start(server, user, options)
+      if password
+        Net::SFTP.start(server, user, port: port, password: password)
+      else
+        Net::SFTP.start(server, user, port: port, keys: keys)
+      end
     end
 
     def upload!(src, target) #send to remote

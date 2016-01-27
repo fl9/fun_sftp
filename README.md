@@ -42,7 +42,7 @@ conn.ll
 #    Directory2
 
 conn.pwd
-# Returns the current working directory
+## Returns the current working directory
 # => "./projects"
 ```
 
